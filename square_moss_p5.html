@@ -1,0 +1,121 @@
+<html>
+<head>
+  <title>square_moss p5js</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+  <script>
+    
+    const squareSize = 16;
+    const colorChange = 1;
+    const colorRange = 100;
+    var distance = 20;
+
+    var c;
+
+    var squareColorR = 10;
+    var squareColorG = 30;
+    var squareColorB = 10;
+
+    var colorArray;
+
+    function setup() {
+      createCanvas(828, 1792);
+    }
+
+    function draw() {
+      noLoop();
+      noStroke();
+
+      colorArray = [
+        color(24,21,9),
+        color(102,105,72),
+        color(218,195,126),
+        color(121,53,22),
+        color(198,112,31),
+        color(150,66,0),
+        color(218,176,88),
+        color(64,59,29),
+        color(187,180,187),
+        color(11,130,156),
+        color(242,219,175),
+        color(211,159,104),
+        color(215,102,73),
+        color(79,37,42),
+        color(60,47,59)
+      ];
+      colorArray = createCols("https://coolors.co/ff6d00-ff7900-ff8500-ff9100-ff9e00-240046-3c096c-5a189a-7b2cbf-9d4edd");
+
+      var squareColorR = random(colorRange);
+      var squareColorG = random(colorRange);
+      var squareColorB = random(colorRange);
+
+      var homMany = 20;
+      c = color(random(200,250),random(200,250),random(200,250));
+      background(random(colorArray));
+      c.setAlpha(0.1);
+
+      for (var i = homMany; i >= 0; i--) {
+         // distance = random([20,22,24,26]);
+        // var squareColorR = random(colorRange);
+        // var squareColorG = random(colorRange);
+        // var squareColorB = random(colorRange);
+        var squareColorR = random(colorArray);
+        var squareColorG = random(colorArray);
+        var squareColorB = random(colorArray);
+        fill(random(colorArray));
+        square_grow(828/2, 1792/2, random(3, 40), [squareColorR, squareColorG, squareColorB]);
+      }
+      //square_grow(random(200, 400), random(200, 400), 50, [squareColorR, squareColorG, squareColorB]);
+    }
+
+    function square_grow(startX, startY, growTimes, squareColors) {
+      if (growTimes <= 0) {
+        return;
+      }
+      //background(c);
+      if (squareColors[0] > 200){
+        // squareColors[0] = random(colorRange);
+        // squareColors[1] = random(colorRange);
+        // squareColors[2] = random(colorRange);
+        squareColors[0] = random(colorArray);
+        squareColors[1] = random(colorArray);
+        squareColors[2] = random(colorArray);
+        //squareColors[0] -= 100;
+        //squareColors[1] -= 100;
+        //squareColors[2] -= 100;
+      }
+      //fill(random(colorArray));
+      //fill(color(squareColors[0], squareColors[1], squareColors[2])); 
+      square(startX, startY, squareSize);
+       // circle(startX, startY, squareSize);
+
+      vec = createVector(1, 0);
+      vec.rotate(random([0, PI/2, PI, 3*PI/2]));
+      // vec.rotate(random(radians(360)));
+      vec.mult(distance);
+      vec.add(startX, startY);
+      square_grow(vec.x, vec.y, growTimes-1, [squareColors[0] + colorChange, squareColors[1]  + colorChange, squareColors[2]  + colorChange]);
+
+      if (random(100) < 20){
+        vec = createVector(1, 1);
+        vec.rotate(random([0, PI/2, PI, 3*PI/2]));
+        // vec.rotate(random(radians(360)));
+        vec.mult(distance);
+        vec.add(startX, startY);
+        square_grow(vec.x, vec.y, growTimes-1, [squareColors[0] + colorChange, squareColors[1]  + colorChange, squareColors[2]  + colorChange]);
+      }
+    }
+
+    function createCols(url)
+    {
+        let slaIndex = url.lastIndexOf("/");
+        let colStr = url.slice(slaIndex + 1);
+        let colArr = colStr.split("-");
+        for(let i = 0; i < colArr.length; i++)colArr[i] = "#" + colArr[i];
+        colArr = shuffle(colArr, true);
+        return colArr;
+    }
+  </script>
+</body>
+</html>
